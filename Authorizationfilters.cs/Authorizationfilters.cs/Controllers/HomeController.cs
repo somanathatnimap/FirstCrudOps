@@ -6,11 +6,16 @@ using System.Web.Mvc;
 
 namespace Authorizationfilters.cs.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
-        [Authorize]
         public ActionResult Index()
         {
+            string name = Session["name"].ToString();
+            ViewBag.Name = name;
+
+            var name1 = Request.Cookies["user"].Value;
+            ViewBag.Name1=name1;
             return View(); 
         }
         

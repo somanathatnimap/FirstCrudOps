@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
@@ -25,6 +26,9 @@ namespace Authorizationfilters.cs.Controllers
             if (IsValid(email, password))
             {
                 FormsAuthentication.SetAuthCookie(email, true);
+                Session["name"] = email.ToString();
+                var usercookies = new HttpCookie("user", email);
+                Response.Cookies.Add(usercookies);
                 return RedirectToAction("index", "home");
             }
 
@@ -46,6 +50,12 @@ namespace Authorizationfilters.cs.Controllers
             {
                 return false;
             }
+
+        }
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login");
         }
 
 
